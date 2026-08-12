@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Der Checkpoint ist 4,6 GB, das Modell-Repo wird geklont, Szenen sind Ausgabe.
+models/
+vendor/
+data/
+
+# three.js wird von setup.sh geholt statt eingecheckt.
+kartograph/static/vendor/

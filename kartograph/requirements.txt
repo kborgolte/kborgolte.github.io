@@ -1,0 +1,18 @@
+# Kartograph selbst
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9   # ohne das nimmt FastAPI keine Datei-Uploads an
+qrcode>=7.4               # QR-Code auf die Handy-Seite
+trimesh>=4.4              # GLB-Export
+
+# Rekonstruktion
+torch>=2.4                # auf dem Mac genügt das Standardrad, MPS ist enthalten
+torchvision>=0.19
+numpy>=1.26
+opencv-python>=4.9
+scipy>=1.11
+einops>=0.8
+safetensors>=0.4
+huggingface_hub>=0.24
+Pillow>=10.0
+tqdm>=4.66

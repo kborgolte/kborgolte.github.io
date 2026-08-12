@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kartograph</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "/static/vendor/three.module.js",
+        "three/addons/controls/OrbitControls.js": "/static/vendor/OrbitControls.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Kartograph</h1>
+    <span class="badge" id="device-badge">…</span>
+    <span class="badge" id="model-badge">…</span>
+    <div class="spacer"></div>
+    <span class="badge" id="queue-badge" hidden></span>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <section>
+        <h3>Vom Handy aufnehmen</h3>
+        <div class="card" style="margin-top:10px">
+          <div class="qr" id="qr">…</div>
+          <div class="url" id="mobile-url">wird ermittelt …</div>
+        </div>
+      </section>
+
+      <section>
+        <h3>Oder Datei ablegen</h3>
+        <label class="dropzone" id="dropzone" style="margin-top:10px">
+          <input type="file" id="file-input" accept="video/*,.mp4,.mov,.m4v">
+          <div>Video hierher ziehen<br><span style="font-size:12px">oder klicken zum Auswählen</span></div>
+        </label>
+      </section>
+
+      <section style="flex:1">
+        <h3>Szenen</h3>
+        <div class="jobs" id="jobs" style="margin-top:10px">
+          <p style="color:var(--muted);font-size:13px">Noch nichts aufgenommen.</p>
+        </div>
+      </section>
+    </aside>
+
+    <main class="stage" id="stage">
+      <div class="hint" id="hint">
+        <strong>Noch keine Szene ausgewählt</strong>
+        <span>Nimm mit dem Handy ein Video auf oder lege eins ab.<br>
+        Fertige Szenen erscheinen links und öffnen sich mit einem Klick.</span>
+      </div>
+
+      <div class="overlay scene-info" id="scene-info" hidden>
+        <strong id="scene-title">Szene</strong>
+        <dl>
+          <dt>Punkte</dt><dd id="i-points">–</dd>
+          <dt>Frames</dt><dd id="i-frames">–</dd>
+          <dt>Gerät</dt><dd id="i-device">–</dd>
+          <dt>Dauer</dt><dd id="i-duration">–</dd>
+        </dl>
+      </div>
+
+      <div class="overlay controls" id="controls" hidden>
+        <label>Punktgröße <input type="range" id="point-size" min="0.5" max="6" step="0.5" value="2"></label>
+        <label><input type="checkbox" id="show-path" checked> Kameraweg</label>
+        <button id="reset-view">Ansicht zurücksetzen</button>
+        <a id="download-glb" download><button>GLB laden</button></a>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>

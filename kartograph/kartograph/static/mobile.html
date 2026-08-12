@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kartograph — Aufnehmen</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="mobile">
+    <div>
+      <h1>Kartograph</h1>
+      <p style="color:var(--muted);font-size:14px;margin:6px 0 0">
+        Raum filmen, hochladen, fertig. Gerechnet wird auf dem Notebook.
+      </p>
+    </div>
+
+    <!-- capture öffnet auf dem Handy direkt die Kamera statt der Dateiauswahl -->
+    <label class="big primary">
+      Video aufnehmen
+      <input type="file" id="capture" accept="video/*" capture="environment">
+    </label>
+
+    <label class="big">
+      Vorhandenes Video wählen
+      <input type="file" id="pick" accept="video/*">
+    </label>
+
+    <div id="status" hidden></div>
+
+    <div class="card">
+      <h3>So wird es gut</h3>
+      <ul class="tips">
+        <li><strong>Langsam gehen.</strong> Schnelle Schwenks verwischen die Bilder, und aus Matsch lässt sich keine Geometrie rechnen.</li>
+        <li><strong>Quer halten.</strong> Mehr Blickfeld pro Bild heißt mehr Überlappung.</li>
+        <li><strong>20 bis 60 Sekunden</strong> reichen für einen Raum. Länger heißt vor allem länger warten.</li>
+        <li><strong>Einmal herum.</strong> Wer am Ausgangspunkt endet, gibt dem Modell eine Schleife zum Schließen — das begradigt die ganze Szene.</li>
+        <li><strong>Licht an.</strong> Dunkle Ecken werden zu Löchern.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const statusBox = document.getElementById('status');
+
+    function show(message, kind = '') {
+      statusBox.hidden = false;
+      statusBox.className = 'status-line ' + kind;
+      statusBox.textContent = message;
+    }
+
+    async function upload(file) {
+      if (!file) return;
+
+      const megabytes = (file.size / 1024 / 1024).toFixed(0);
+      show(`${file.name} (${megabytes} MB) wird übertragen …`);
+
+      const body = new FormData();
+      body.append('file', file);
+
+      try {
+        const response = await fetch('/api/upload', { method: 'POST', body });
+        const payload = await response.json();
+
+        if (!response.ok) {
+          show(payload.detail || 'Upload fehlgeschlagen', 'err');
+          return;
+        }
+        show('Angekommen. Die Rekonstruktion läuft jetzt auf dem Notebook — '
+           + 'dort kannst du zusehen. Du kannst das Handy weglegen.', 'ok');
+      } catch (error) {
+        show('Keine Verbindung zum Notebook. Gleiches WLAN?', 'err');
+      }
+    }
+
+    for (const id of ['capture', 'pick']) {
+      document.getElementById(id).addEventListener('change', (event) => {
+        upload(event.target.files[0]);
+      });
+    }
+  </script>
+</body>
+</html>
