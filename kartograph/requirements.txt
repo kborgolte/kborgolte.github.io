@@ -6,8 +6,11 @@ qrcode>=7.4               # QR-Code auf die Handy-Seite
 trimesh>=4.4              # GLB-Export
 
 # Rekonstruktion
-torch>=2.4                # auf dem Mac genügt das Standardrad, MPS ist enthalten
-torchvision>=0.19
+# 2.8 ist die Version, gegen die LingBot-Map upstream entwickelt wird. Auf dem
+# Mac genügt das Standardrad — MPS ist darin enthalten, der CUDA-Index aus der
+# offiziellen Anleitung wäre hier sogar falsch.
+torch>=2.8
+torchvision>=0.23
 numpy>=1.26
 opencv-python>=4.9
 scipy>=1.11
